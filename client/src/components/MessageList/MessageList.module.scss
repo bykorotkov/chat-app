@@ -1,0 +1,41 @@
+.messages {
+  width: 100%;
+  margin-top: 50px;
+}
+
+.connectionMessage {
+  margin: 0 auto;
+  width: fit-content;
+  margin-top: 20px;
+}
+
+.connectionMessage span {
+  position: relative;
+  color: #000;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.connectionMessage span::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  border-bottom: 1px solid #000;
+  transition: all .25s ease;
+  opacity: 1;
+}
+
+.connectionMessage span:hover::before {
+  opacity: 0;
+}
+
+.message {
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 100%;
+  margin: 30px auto 0;
+  word-break: break-word;
+}
