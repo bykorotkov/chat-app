@@ -1,12 +1,17 @@
 import React, { useState } from "react"
 import classes from './LoginForm.module.scss'
 import classNames from "classnames"
+import { useDispatch } from "react-redux"
+import { addUser } from "../../store/users/usersSlice"
 
 const LoginForm = ({ username, setUsername, connect }) => {
     const [isError, setIsError] = useState(false);
+    const dispatch = useDispatch();
+
     const handleConnect = () => {
         if (username.trim()) {
             setIsError(false);
+            dispatch(addUser({ name: username }));
             connect();
         } else {
             setIsError(true);

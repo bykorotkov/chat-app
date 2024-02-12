@@ -1,5 +1,3 @@
-
-import './App.css';
 import WebSocketComponent from "./components/WebSocketComponent/WebSocketComponent";
 
 function App() {

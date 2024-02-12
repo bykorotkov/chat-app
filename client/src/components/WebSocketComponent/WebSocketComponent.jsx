@@ -4,6 +4,7 @@ import LoginForm from "../LoginForm/LoginForm"
 import MessageForm from "../MessageForm/MessageForm"
 import MessageList from "../MessageList/MessageList"
 import classes from './WebSocketComponent.module.scss'
+import OnlineUsers from "../OnlineUsers/OnlineUsers"
 
 const WebSocketComponent = () => {
     const [value, setValue] = useState('')
@@ -23,6 +24,7 @@ const WebSocketComponent = () => {
 
     return (
         <div className={classes.container}>
+            <OnlineUsers />
             <MessageForm
                 value={value}
                 setValue={setValue}
