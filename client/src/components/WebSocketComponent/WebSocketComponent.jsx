@@ -11,6 +11,12 @@ const WebSocketComponent = () => {
     const [username, setUsername] = useState('')
     const { connected, messages, connect: connectSocket, sendMessage: sendWebSocketMessage } = useWebSocket(username);
 
+    const handleConnect = () => {
+        if (username.trim()) {
+            connectSocket();
+        }
+    };
+
     const sendMessage = () => {
         sendWebSocketMessage(value);
         setValue('');
@@ -18,7 +24,7 @@ const WebSocketComponent = () => {
 
     if (!connected) {
         return <div className={classes.container}>
-            <LoginForm username={username} setUsername={setUsername} connect={() => connectSocket()} />
+            <LoginForm username={username} setUsername={setUsername} connect={handleConnect} />
         </div>
     }
 

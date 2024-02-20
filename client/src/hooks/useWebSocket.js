@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from "react"
+import { useDispatch } from "react-redux"
+import { addUser } from "../store/users/usersSlice"
+import { addMessage } from "../store/messages/messagesSlice"
 
 const useWebSocket = (username) => {
     const [messages, setMessages] = useState([])
     const socket = useRef()
     const [connected, setConnected] = useState(false)
+    const dispatch = useDispatch();
 
     useEffect(() => {
         return () => {
@@ -28,7 +32,14 @@ const useWebSocket = (username) => {
 
         socket.current.onmessage = (event) => {
             const message = JSON.parse(event.data);
-            setMessages(prev => [message, ...prev]);
+
+            console.log(message)
+            if (Array.isArray(message)) {
+                dispatch(addUser(message));
+            } else {
+                // dispatch(addMessage(message))
+                setMessages(prev => [message, ...prev]);
+            }
         };
 
         socket.current.onclose = () => setConnected(false);

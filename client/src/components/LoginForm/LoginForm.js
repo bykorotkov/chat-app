@@ -6,13 +6,16 @@ import { addUser } from "../../store/users/usersSlice"
 
 const LoginForm = ({ username, setUsername, connect }) => {
     const [isError, setIsError] = useState(false);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
 
     const handleConnect = () => {
         if (username.trim()) {
             setIsError(false);
-            dispatch(addUser({ name: username }));
             connect();
+            // const users = JSON.parse(localStorage.getItem('users')) || [];
+            // localStorage.setItem('users', JSON.stringify([...users, {name: username}]))
+            // dispatch(addUser({name: username}))
+
         } else {
             setIsError(true);
         }
@@ -25,7 +28,7 @@ const LoginForm = ({ username, setUsername, connect }) => {
     };
 
     const handleChange = (e) => {
-        if (isError) setIsError(false); // Скрываем сообщение об ошибке при начале ввода
+        if (isError) setIsError(false);
         setUsername(e.target.value);
     };
 
