@@ -5,7 +5,8 @@ const wss = new ws.Server({
 }, () => console.log(`Server started on 5000 port`))
 
 wss.on('connection', function connection(ws) {
-    // ws.id = Date.now()
+    ws.id = Date.now()
+    const userId = ws.id
     ws.on('message', function (message) {
         message = JSON.parse(message)
 
@@ -13,13 +14,15 @@ wss.on('connection', function connection(ws) {
             case 'message':
                 broadcastMessage(message)
                 break;
-            case 'connection':
-                broadcastConnection(message)
+            case 'connect':
+                broadcastConnection(message, userId)
+                break;
+            case 'disconnect':
+                broadcastDisconnect(message, userId)
                 break;
         }
     })
 })
-
 
 // const messagesData = []
 function broadcastMessage(message, id) {
@@ -34,16 +37,31 @@ function broadcastMessage(message, id) {
     })
 }
 
-const data = []
+let data = []
+
 function broadcastConnection(message, id) {
     const usernames = data.map(item => item.username);
 
     if (!usernames.includes(message.username)) {
-        data.push(message);
+        const userData = {
+            username: message.username,
+            id
+        }
+
+        data.push(userData);
         wss.clients.forEach(client => {
             const usersList = data.map(item => item.username);
             client.send(JSON.stringify(usersList));
             client.send(JSON.stringify(message));
         });
     }
+}
+
+function broadcastDisconnect(message, userId) {
+    data = data.filter((item) => item.id !== userId)
+    wss.clients.forEach(client => {
+        const usersList = data.map(item => item.username);
+        client.send(JSON.stringify(usersList));
+        client.send(JSON.stringify(message));
+    });
 }

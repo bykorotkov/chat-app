@@ -14,18 +14,28 @@ const MessageList = ({ messages, value }) => {
         textarea.style.height = `${textarea.scrollHeight}px`;
     }, [value]);
 
+    console.log(messages)
+
     return (
         <div className={classes.messages}>
-            {messages.map(mess =>
-                <div key={mess.id}>
-                    {mess.event === 'connection'
-                        ?   <div className={classes.connectionMessage}>
+            {messages.map((mess, i) =>
+                <div key={i}>
+                    {
+                        mess.event === 'connect' ? (
+                            <div className={classes.connectionMessage}>
                                 Пользователь <span>{mess.username ? mess.username : savedUsername}</span> подключился
                             </div>
-                        :   <div className={classes.message}>
+                        ) : mess.event === 'disconnect' ? (
+                            <div className={classes.connectionMessage}>
+                                Пользователь <span>{mess.username ? mess.username : savedUsername}</span> вышел из чата
+                            </div>
+                        ) : (
+                            <div className={classes.message}>
                                 <span>{mess.username}</span>: {mess.message}
                             </div>
+                        )
                     }
+
                 </div>
             )}
         </div>

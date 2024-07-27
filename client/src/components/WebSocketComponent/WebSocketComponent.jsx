@@ -1,15 +1,16 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, { useState} from 'react';
 import useWebSocket from "../../hooks/useWebSocket"
 import LoginForm from "../LoginForm/LoginForm"
 import MessageForm from "../MessageForm/MessageForm"
 import MessageList from "../MessageList/MessageList"
 import classes from './WebSocketComponent.module.scss'
 import OnlineUsers from "../OnlineUsers/OnlineUsers"
+import ButtonLeave from "../ButtonLeave/ButtonLeave"
 
 const WebSocketComponent = () => {
     const [value, setValue] = useState('')
     const [username, setUsername] = useState('')
-    const { connected, messages, connect: connectSocket, sendMessage: sendWebSocketMessage } = useWebSocket(username);
+    const { isConnected, messages, connect: connectSocket, sendMessage: sendWebSocketMessage, disconnect } = useWebSocket(username);
 
     const handleConnect = () => {
         if (username.trim()) {
@@ -17,12 +18,17 @@ const WebSocketComponent = () => {
         }
     };
 
+    const handleDisconnect = () => {
+        disconnect()
+        setUsername('');
+    }
+
     const sendMessage = () => {
         sendWebSocketMessage(value);
         setValue('');
     };
 
-    if (!connected) {
+    if (!isConnected) {
         return <div className={classes.container}>
             <LoginForm username={username} setUsername={setUsername} connect={handleConnect} />
         </div>
@@ -37,6 +43,7 @@ const WebSocketComponent = () => {
                 sendMessage={sendMessage}
             />
             <MessageList messages={messages} />
+            <ButtonLeave disconnect={handleDisconnect}/>
         </div>
     );
 };

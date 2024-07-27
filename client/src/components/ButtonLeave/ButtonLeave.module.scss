@@ -1,0 +1,15 @@
+.ButtonLeave {
+  position: fixed;
+  top: 50px;
+  right: 50px;
+  height: 52px;
+  width: 150px;
+  border-radius: 10px;
+  border: none;
+  transition: all .25s ease;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #ccc;
+  }
+}

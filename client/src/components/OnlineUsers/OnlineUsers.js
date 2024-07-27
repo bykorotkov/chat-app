@@ -9,7 +9,7 @@ const OnlineUsers = () => {
         <div className={classes.onlineUsers}>
             <h2>Пользователи чата:</h2>
             {onlineUsers.map((user, index) => (
-                <div className={classes.userItem} key={index}>{user}</div>
+                <div className={classes.userItem} key={index}>{index + 1}. {user}</div>
             ))}
         </div>
     )
